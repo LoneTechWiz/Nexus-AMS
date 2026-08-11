@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AuditController as AdminAuditController;
 use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\AuditRuleController;
 use App\Http\Controllers\Admin\BeigeAlertController;
+use App\Http\Controllers\Admin\CityBuildAuditController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CityGrantController;
 use App\Http\Controllers\Admin\CustomizationController;
@@ -296,6 +297,8 @@ Route::middleware(['auth', EnsureUserIsVerified::class, DiscordVerifiedMiddlewar
         // Audits
         Route::middleware('can:view-audits')->group(function () {
             Route::get('/audits', [AdminAuditController::class, 'index'])->name('admin.audits.index');
+            Route::get('/audits/city-builds', [CityBuildAuditController::class, 'index'])
+                ->name('admin.audits.city-builds.index');
             Route::get('/audits/rules', [AuditRuleController::class, 'index'])->name('admin.audits.rules.index');
             Route::get('/audits/rules/{auditRule}/violations', [AdminAuditController::class, 'violations'])
                 ->name('admin.audits.rules.violations');
@@ -309,6 +312,10 @@ Route::middleware(['auth', EnsureUserIsVerified::class, DiscordVerifiedMiddlewar
             Route::delete('/audits/rules/{auditRule}', [AuditRuleController::class, 'destroy'])->name('admin.audits.rules.destroy');
             Route::post('/audits/run', [AdminAuditController::class, 'run'])->name('admin.audits.run');
             Route::post('/audits/notify', [AdminAuditController::class, 'notify'])->name('admin.audits.notify');
+            Route::post('/audits/city-builds/recommendations', [CityBuildAuditController::class, 'regenerateAll'])
+                ->name('admin.audits.city-builds.recommendations.regenerate-all');
+            Route::post('/audits/city-builds/{nation}/recommendation', [CityBuildAuditController::class, 'regenerate'])
+                ->name('admin.audits.city-builds.recommendations.regenerate');
             Route::patch('/audits/results/{auditResult}/remediation', [AdminAuditController::class, 'updateRemediation'])
                 ->name('admin.audits.results.remediation');
         });

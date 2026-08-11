@@ -48,7 +48,8 @@ class AppSidebar extends Component
                 $this->item('Cities', 'o-building-office-2', route('admin.cities.index'), request()->routeIs('admin.cities.*'), null, $user->can('view-members')),
                 $this->item('Users', 'o-user-group', route('admin.users.index'), request()->routeIs('admin.users.*'), null, $user->can('view-users')),
                 $this->item('Roles', 'o-identification', route('admin.roles.index'), request()->routeIs('admin.roles.*'), null, $user->can('view-roles')),
-                $this->item('Audits', 'o-shield-check', route('admin.audits.index'), request()->routeIs('admin.audits.*'), null, $user->can('view-audits')),
+                $this->item('Audits', 'o-shield-check', route('admin.audits.index'), request()->routeIs('admin.audits.index', 'admin.audits.rules.*', 'admin.audits.results.*'), null, $user->can('view-audits')),
+                $this->item('Build audit', 'o-wrench-screwdriver', route('admin.audits.city-builds.index'), request()->routeIs('admin.audits.city-builds.*'), null, $user->can('view-audits')),
                 $this->item('Recruitment', 'o-envelope', route('admin.recruitment.index'), request()->routeIs('admin.recruitment.*'), null, $user->can('view-recruitment')),
             ]),
             $this->group('Finance', [
